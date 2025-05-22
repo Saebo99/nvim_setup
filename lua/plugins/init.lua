@@ -12,12 +12,13 @@ vim.opt.runtimepath:prepend(lazypath)
 
 -- 2. require the plugin spec list from sibling files
 require('lazy').setup({
-    require('plugins.telescope'), -- our Telescope chunk
+    require('plugins.telescope'),  -- our Telescope chunk
     require('plugins.treesitter'), -- our Treesitter chunk
-    require('plugins.lsp'),       -- our LSP chunk
-    require('plugins.cmp'),       -- our completion chunk
-    require('plugins.format'), -- our formatting chunk
-    require('plugins.git'),   -- our Git chunk
+    require('plugins.lsp'),        -- our LSP chunk
+    require('plugins.cmp'),        -- our completion chunk
+    require('plugins.format'),     -- our formatting chunk
+    require('plugins.git'),        -- our Git chunk
+    require('plugins.ui'),         -- our UI chunk
     {
         'folke/tokyonight.nvim',
         priority = 1000,
@@ -53,5 +54,47 @@ require('lazy').setup({
                 lualine_z = { 'location' },
             },
         },
+    },
+    -- after your existing plugin entries
+    {
+        'windwp/nvim-autopairs',
+        event = 'InsertEnter',
+        config = function()
+            require('nvim-autopairs').setup({
+                check_ts = true, -- use treesitter to skip unwanted pairs
+                fast_wrap = { -- map <M-e> to wrap
+                    map = '<M-e>',
+                    chars = { '{', '[', '(', '"', "'" },
+                    pattern = string.gsub([[ [%'%"%>%]%)%}%,] ]], '%s+', ''),
+                    offset = 0, -- how many chars to insert before wrap
+                    end_key = '$',
+                    key = 'e',
+                    check_comma = true,
+                    highlight = 'PmenuSel',
+                    highlight_grey = 'LineNr',
+                },
+            })
+        end,
+    },
+    {
+        'p00f/nvim-ts-rainbow',
+        dependencies = { 'nvim-treesitter/nvim-treesitter' },
+        config = function()
+            require('nvim-treesitter.configs').setup({
+                rainbow = {
+                    enable = true,
+                    extended_mode = true, -- Highlight also non-bracket delimiters like html tags
+                    max_file_lines = nil, -- Disable for very large files
+                    colors = {
+                        "#f7768e",
+                        "#e0af68",
+                        "#9ece6a",
+                        "#7aa2f7",
+                        "#bb9af7",
+                        "#7dcfff",
+                    },
+                }
+            })
+        end,
     },
 })

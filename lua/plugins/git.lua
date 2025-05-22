@@ -29,7 +29,7 @@ return {
           -- Actions
           map({ 'n', 'v' }, '<leader>hs', ':Gitsigns stage_hunk<CR>', 'Stage hunk')
           map({ 'n', 'v' }, '<leader>hr', ':Gitsigns reset_hunk<CR>', 'Reset hunk')
-          map('n', '<leader>hp', gs.preview_hunk_popup, 'Preview hunk')
+          map('n', '<leader>hp', gs.preview_hunk, 'Preview hunk')
         end,
       },
     },
